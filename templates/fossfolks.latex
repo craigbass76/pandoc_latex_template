@@ -1,0 +1,298 @@
+%!TEX TS-program = xelatex
+\documentclass[12pt,oneside,a4paper]{article}
+
+% ----------------------------------------------------------------------
+% This gets tables working, as long as you don't mind typing out LaTex
+% code. I've not figured out vertical lines yet.
+% ----------------------------------------------------------------------
+\usepackage{booktabs}
+
+
+% ----------------------------------------------------------------------
+% This will give you tables with horizontal lines only, but you can just
+% type in markdown. You'll get a table with a top border, one below the 
+% first row, and a bottom border. 
+% ----------------------------------------------------------------------
+\usepackage{longtable}
+\def\toprule{\hline}
+\def\midrule{\hline}
+\def\bottomrule{\hline}
+
+
+% No idea what this does, but shtuff breaks when it's commented out
+\def\tightlist{}
+
+% I don't know here either. tikz draws things, or does something with images
+\usepackage{tikz}
+\makeatletter
+\global\let\tikz@ensure@dollar@catcode=\relax
+\makeatother
+
+%If this doesn't get set, then some of the "headers" get indented, and look funny
+\setlength{\parskip}{1em}
+
+\setlength{\parindent}{0em}
+
+
+% ----------------------------------------------------------------------
+% Here I'm specifying fonts using fontspec package. They're fonts 
+% sitting in the ./fonts directory
+% ----------------------------------------------------------------------
+\usepackage{fontspec}
+ \setmainfont{IBMPlexSans-Regular.ttf}[
+  Path = ./fonts/ ,
+  ItalicFont = IBMPlexSans-Italic.ttf,
+  BoldFont = IBMPlexSans-Medium.ttf,
+  BoldItalicFont = IBMPlexSans-MediumItalic.ttf
+  ]
+ \setmonofont{IBMPlexMono-Regular.ttf}[
+  Path = ./fonts/ ,
+  ItalicFont = IBMPlexMono-Italic.ttf,
+  BoldFont = IBMPlexMono-SemiBold.ttf,
+  BoldItalicFont = IBMPlexMono-SemiBoldItalic.ttf,
+  Scale = 0.75
+  ]
+
+ 
+% ----------------------------------------------------------------------
+% xcolor does all sorts of schtuff. Here, I'm specifying link and 
+% "heading" colors. As far as the page color, I'm leaving it white. But 
+% it can be changed a ways down the file
+% ----------------------------------------------------------------------
+\usepackage{xcolor}
+\definecolor{hyperlinkcolor}{HTML}{649ed9}
+\definecolor{headingcolor}{HTML}{e74c3c}
+\usepackage{listings}
+
+
+% ----------------------------------------------------------------------
+% Blockquote colors. Unlike css or html, we need all six characters. No fff
+% here for white, we'd need ffffff. At least we don't need caps...
+% ----------------------------------------------------------------------
+\definecolor{blockquote-border}{HTML}{555555}
+\definecolor{blockquote-text}{HTML}{555555}
+
+
+% ----------------------------------------------------------------------
+% The rest of this is still block quote related, but has to do with 
+% sticking a vertical bar on the left, like you're used to seeing on a
+% web page
+% ----------------------------------------------------------------------
+\usepackage{mdframed}
+\newmdenv[rightline=false,bottomline=false,topline=false,linewidth=3pt,linecolor=blockquote-border,skipabove=\parskip]{customblockquote}
+\renewenvironment{quote}{\begin{customblockquote}\list{}{\rightmargin=0em\leftmargin=0em}%
+\item\relax\color{blockquote-text}\ignorespaces}{\unskip\unskip\endlist\end{customblockquote}}
+
+% ----------------------------------------------------------------------
+% This 'un sets a margin on all sides of the document. Here I've got a
+% 1 inch margin on the top and bottom, and a 1/2" margin on the right and
+% left sides
+% ----------------------------------------------------------------------
+\usepackage[vmargin=1in,hmargin=.5in]{geometry}
+
+
+% ----------------------------------------------------------------------
+% Heading color (specified earlier with xcolor), size, and margins,
+% specified down to H5
+% ----------------------------------------------------------------------
+\usepackage{titlesec}
+
+% H1 equivalent (section)
+\titleformat*{\section}{\normalfont\fontsize{28pt}{16pt}\bfseries\color{headingcolor}}
+\titlespacing*{\section}{0pt}{2em}{.25em}
+
+% H2 equivalent (subsection)
+\titleformat*{\subsection}{\normalfont\fontsize{24pt}{16pt}\bfseries\color{headingcolor}}
+\titlespacing*{\subsection}{0pt}{1em}{.1em}
+
+% H3 equivalent (subsubsection)
+\titleformat*{\subsubsection}{\normalfont\fontsize{20pt}{16pt}\bfseries\color{headingcolor}}
+\titlespacing*{\subsubsection}{0pt}{1em}{.1em}
+
+% H4 equivalent (paragraph)
+\titleformat{\paragraph}[hang]{\normalfont\fontsize{16pt}{16pt}\bfseries\color{headingcolor}}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}{0pt}{.8em}{.1em}
+
+% H5 equivalent (subparagraph)
+\titleformat{\subparagraph}[hang]{\normalfont\fontsize{12pt}{16pt}\bfseries\color{headingcolor}}{\thesubparagraph}{1em}{}
+\titlespacing*{\subparagraph}{0pt}{.5em}{-.1em}
+
+% H6 equivalent -- I've not found one yet, but I guess it's possible to 
+% create something with titlesec
+% I've got bigger fish to fry at the moment, but leaving a note here so 
+% I remember to come back to it
+
+
+% ----------------------------------------------------------------------
+% Need hyperref package for coloring links, so I commented it out up top
+% and stuck it down here. colorlinks are links pointing to internal spots
+% in the resulting pdf. The rest (except urlcolor) I'm not sure yet
+% ----------------------------------------------------------------------
+\usepackage[
+    colorlinks = true,
+    linkcolor = black,
+    anchorcolor = black,
+    citecolor = green,
+    filecolor = cyan,
+    menucolor = red,
+    runcolor = cyan,
+    urlcolor = hyperlinkcolor]{hyperref}
+
+
+% ----------------------------------------------------------------------
+% This graphix package will let us throw images in the doc.
+% background will let us do watermarks.
+% ----------------------------------------------------------------------
+\usepackage{graphicx}
+\usepackage{background}
+ \backgroundsetup{contents={}} 
+
+
+% ----------------------------------------------------------------------
+% Get rid of 1, 1.2, 3.1.5 types of heading numbers
+% 
+% ----------------------------------------------------------------------
+\makeatletter
+\renewcommand\thesection{}
+\renewcommand\thesubsection{}
+\renewcommand\thesubsubsection{}
+\renewcommand\theparagraph{}
+\renewcommand\thesubparagraph{}
+\makeatother
+\makeatletter
+\def\@seccntformat#1{\protect\makebox[0pt][r]{{\csname the#1\endcsname\quad}}}
+\makeatother
+
+
+% ----------------------------------------------------------------------
+% Be able to position text absolutely with this. It gets used on the 
+% cover page, near the end of the template.
+% ----------------------------------------------------------------------
+\usepackage[absolute,overlay]{textpos}
+
+
+% ----------------------------------------------------------------------
+% I ran into a document that went WAY deep on list bullet levels. This
+% fixed it so that we can go at least nine levels deep.
+% ----------------------------------------------------------------------
+\usepackage{enumitem}
+\setlistdepth{9}
+\setlist[itemize,1]{label=\textbullet}
+\setlist[itemize,2]{label=\textbullet}
+\setlist[itemize,3]{label=\textbullet}
+\setlist[itemize,4]{label=\textbullet}
+\setlist[itemize,5]{label=\textbullet}
+\setlist[itemize,6]{label=\textbullet}
+\setlist[itemize,7]{label=\textbullet}
+\setlist[itemize,8]{label=\textbullet}
+\setlist[itemize,9]{label=\textbullet}
+
+\renewlist{itemize}{itemize}{9}
+
+% ----------------------------------------------------------------------
+% Sets top margin on verbatim (```code blocks```) to zero, so that a code block
+% has the same spacing as just a `single line` type of code text
+% ----------------------------------------------------------------------
+
+
+
+% ----------------------------------------------------------------------
+% Set a fancy header. Particulars are set later, but essentially this puts
+% stuff at the top of every page. Specify it at the lhead and rhead lines
+% down near the bottom of this template
+% ----------------------------------------------------------------------
+\usepackage{fancyhdr}
+
+
+\begin{document}
+
+
+% ----------------------------------------------------------------------
+% Gonna stick a title page in this puppy. Variables have a dollar sign on 
+% either side, and are declared in the first few lines of the markdown 
+% file we're dubbing with.
+% ----------------------------------------------------------------------
+
+\begin{titlepage}
+   \begin{center}
+
+       \vspace{1.5cm}
+       
+       
+       
+% This is the logo
+ \includegraphics[width=0.5\textwidth]{logo.png}
+ 
+ 
+    \vspace{2em}
+    \fontsize{4em}{4.5em}\selectfont {$title$}
+    \normalsize
+       
+    \vspace{1em}
+    \fontsize{2em}{3.25em}\selectfont \textit{$subtitle$}
+    \normalsize
+
+    \vspace{0em} 
+    \fontsize{2em}{2em}\selectfont $subject$
+
+    \normalsize
+
+% ----------------------------------------------------------------------
+% I'm not real worried about the title and subtitle position, but I'm worried
+% if there's nothing there, then the author and date will get bumped
+% way up. Not good, Bub... So we've got a specified dimension on things.
+% Kind of like delaring absolute or relative positioning in a css div.
+% ----------------------------------------------------------------------
+
+\begin{textblock*}{21cm}(0cm,25cm) % {block width} (coords) 
+   \fontsize{1.4em}{1.4em}\selectfont \textbf{$author$}
+\end{textblock*}
+
+\begin{textblock*}{21cm}(0cm,26cm) % {block width} (coords) 
+   \fontsize{1.4em}{1.4em}\selectfont \textbf{$email$}
+\end{textblock*}       
+       
+\begin{textblock*}{21cm}(0cm,27cm) % {block width} (coords) 
+   \fontsize{1.4em}{1.4em}\selectfont {$date$}
+\end{textblock*}
+     
+     
+   \end{center}
+\end{titlepage}
+
+
+
+% ----------------------------------------------------------------------
+% Insert a table of contents
+% ----------------------------------------------------------------------
+
+
+
+\tableofcontents
+
+
+
+% ----------------------------------------------------------------------
+% These three lines make the TOC not count as a page, and starts the actual 
+% page numbering at 1 on the page following the TOC
+% cleardoublepage appears to make the rest of the page blank, after the
+% content, so that anything else goes on the next page.
+% ----------------------------------------------------------------------
+\thispagestyle{empty}
+\cleardoublepage
+\setcounter{page}{1}
+
+\backgroundsetup{opacity=.08, contents={\includegraphics[scale=0.15]{logo.png} }}
+
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Linux Academy}
+\lhead{$title$}
+\rfoot{\thepage}
+
+
+$body$
+
+
+\end{document}
