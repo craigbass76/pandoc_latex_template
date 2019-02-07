@@ -58,8 +58,8 @@ In the same directory as wherever we're running the `pandoc` command from, there
 
 Commands are all going to be run like this:  
 ```
-pandoc -s --template="./templates/template.latex" markdown_template.md --pdf-engine=xelatex \
--o markdown_template.pdf
+pandoc -s --template="./templates/template.latex" README.md --pdf-engine=xelatex \
+-o README.pdf
 ```
 
 #### The Title
