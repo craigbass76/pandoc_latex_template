@@ -8,11 +8,17 @@ keywords:
 date: \today{}
 ---
 
-## How To
+## General notes
 
- Getting the environment set up involves installing a few packages. I've tested on Ubuntu and MacOS in Ubuntu, but the package names should be similar on different operating systems. Here's how I got the environment set up on my own machine.
+This README actually doubles as a PDF guinea pig. I used to to test every scenario I could think of, making PDF files from it as I went. It's also got instructions about how to get the whole process up and going, at least on a Linux machine or a Mac. I've not tested on Windows yet, but it probably isn't that difficult.
 
-### Installing Software
+The funky stuff you see up at the beginning of this file actually translates into different things in the final document, mostly on the title page.
+
+## How to
+
+Getting the environment set up involves installing a few packages. I've tested on Ubuntu and MacOS in Ubuntu, but the package names should be similar on different operating systems. Here's how I got the environment set up on my own machine.
+
+### Installing software
 
 #### On Ubuntu
 
@@ -52,19 +58,25 @@ texlive-font-utils
 
 ### Templates
 
+Templates sit in the, you guessed it, `templates` directory. It's in the same level of the file tree as this markdown file. Put it wherever you want, just remember to alter the `pandoc` command when you run it.
 
-#### Fonts
-In the same directory as wherever we're running the `pandoc` command from, there needs to be a `fonts` directory, so that we can declare where to get fonts from. You don't NEED one really, but I'm trying to keep shit cleaned up; we may want a few different fonts (we'll at least need a monospaced one for code) so I'm just keeping them all in a fonts directory.
+### Fonts
+In the same directory as wherever we've got `templates`, there's a `fonts` directory. Set which fonts you want to use in the LaTex template, then make sure the font files themsleves are sitting in that fonts directory. I've included an open source font (IBM Plex) with this package.
+
+
+### Running pandoc
 
 Commands are all going to be run like this:  
 ```
-pandoc -s --template="./templates/template.latex" README.md --pdf-engine=xelatex \
--o README.pdf
+pandoc -s --template="./templates/template.latex" markdown_file.md --pdf-engine=xelatex \
+-o pdf_file.pdf
 ```
 
-#### The Title
+Here, replace markdown_file.md and pdf_file.pdf with whatever actual filenames you're dealing with. Now that I've used this a bit, I tend to find the markdown in whoever's folder, then dump the PDF locally until I'm done.
 
-I've done this heading in the LaTeX equivalent of H2, since I'm working on other types of documents. I realize that I can use H1 here, but I also copyedit things on blogs, and H1 there is the title. I can't use it.
+## Headings
+
+The biggest heading I've used is the LaTex equivalent of an HTML h2. I realize that I can use h1, but I also copyedit things on blogs, and h1 there is already being used as a title. I can't use it.
 
   - Bulleted List
     - There's a way to do this with things besides bullets (Roman numerals, numbers, capital and lowercase letters, numbers, etc) but I just need bullets, so here they are.
@@ -85,10 +97,6 @@ I've done this heading in the LaTeX equivalent of H2, since I'm working on other
   - A fourth point  
 
 And a link will look like [this link](http://fossfolks.com)
-
-# H1
-
-LaTeX calls it the thesection
 
 ## H2
 
@@ -112,10 +120,12 @@ It's easier to read the markdown with the empty line, so I didn't get too worrie
 
 ---
 
+
+## Block quotes
+
+
 > This is a block quote Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 >> And this is nested blockquote.
-
-> More of the original quote here... Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
 > ##### This is an H5 type header, inside a quote, with a quoted list under it:
 >
