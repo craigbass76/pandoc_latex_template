@@ -14,6 +14,8 @@ This README actually doubles as a PDF guinea pig. I used to to test every scenar
 
 The funky stuff you see up at the beginning of this file actually translates into different things in the final document, mostly on the title page.
 
+If you're curious to read the whole story, I blogged about in [Convert Markdown to PDF with Pandoc and LaTeX](http://fossfolks.com/how-to/convert-markdown-to-pdf-with-pandoc-and-latex "Convert Markdown to PDF with Pandoc and LaTeX"), over at [fossfolks.com](http://fossfolks.com).
+
 ## How to
 
 Getting the environment set up involves installing a few packages. I've tested on Ubuntu and MacOS in Ubuntu, but the package names should be similar on different operating systems. Here's how I got the environment set up on my own machine.
@@ -172,3 +174,7 @@ It's easier to read the markdown with the empty line, so I didn't get too worrie
 | Passw0rd | a-z,A-Z,0-9 62 | 8 | 218,340,105,584,896 |
 | P@ssw0rd | a-z,A-Z,0-9,@ 94 | 8 | 6,095,689,385,410,816   |
 | P@s5 | a-z,A-Z,0-9,@ 94 | 4 | 78,074,896   |
+
+### Line Breaks
+
+They look ugly in markdown, but notice the line breaks between the tables. A backslash, followed by two spaces and a blank line, will produce a blank line in the PDF.
